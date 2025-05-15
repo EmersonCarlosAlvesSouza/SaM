@@ -1,9 +1,8 @@
 import { SaM } from './sam.js';
 
 const samcode = [
-  "PUSH 10",
-  "PUSH 20",
-  "ADD",
+  "PUSH 32",
+  "LSHIFT 2",
   "PRINT",
   "HALT"
 ];

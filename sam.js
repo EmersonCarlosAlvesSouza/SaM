@@ -1,7 +1,6 @@
 export class SaM {
   constructor(program) {
     this.stack = [];
-    this.memory = {};
     this.program = program;
     this.pc = 0;
     this.running = true;
@@ -26,32 +25,51 @@ export class SaM {
         break;
       case 'ADD':
         {
-          const b = this.stack.pop();
-          const a = this.stack.pop();
-          this.stack.push(a + b);
+          const vTop = this.stack.pop();
+          const vBelow = this.stack.pop();
+          this.stack.push(vBelow + vTop);
         }
         break;
       case 'SUB':
         {
-          const b = this.stack.pop();
-          const a = this.stack.pop();
-          this.stack.push(a - b);
+          const vTop = this.stack.pop();
+          const vBelow = this.stack.pop();
+          this.stack.push(vBelow - vTop);
         }
         break;
-      case 'MUL':
+      case 'TIMES':
         {
           const b = this.stack.pop();
-          const a = this.stack.pop();
-          this.stack.push(a * b);
+          const vBelow = this.stack.pop();
+          this.stack.push(vBelow * b);
         }
         break;
       case 'DIV':
         {
-          const b = this.stack.pop();
-          const a = this.stack.pop();
-          this.stack.push(a / b);
+          const vTop = this.stack.pop();
+          const vBelow = this.stack.pop();
+          this.stack.push(vBelow / vTop);
         }
         break;
+      case 'MOD':
+      {
+        const vTop = this.stack.pop();
+        const vBelow = this.stack.pop();
+        this.stack.push(vBelow % vTop);
+      }
+      break;
+      case 'LSHIFT':
+        {
+          const vTop = this.stack.pop();
+          this.stack.push(vTop << Number(arg));
+        }
+        break;
+        case 'RSHIFT':
+          {
+            const vTop = this.stack.pop();
+            this.stack.push(vTop >> Number(arg));
+          }
+          break;
       case 'PRINT':
         console.log(this.stack[this.stack.length - 1]);
         break;

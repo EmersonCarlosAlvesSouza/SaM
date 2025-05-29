@@ -1,5 +1,3 @@
-const NUMBER = 505;
-
 export class SaM {
   constructor(program) {
     this.stack = [];
@@ -143,7 +141,53 @@ export class SaM {
           vBelow = this.stack.pop();
           this.stack.push(~(vBelow & vTop));
         }
-        break;  
+        break;
+      case 'GREATER':
+        {
+          vTop = this.stack.pop();
+          vBelow = this.stack.pop();
+          this.stack.push(vBelow > vTop ? 1 : 0);
+        }
+        break;
+      case 'LESS':
+        {
+          vTop = this.stack.pop();
+          vBelow = this.stack.pop();
+          this.stack.push(vBelow < vTop ? 1 : 0);
+        }
+        break;
+      case 'EQUAL':
+      {
+        vTop = this.stack.pop();
+        vBelow = this.stack.pop();
+        this.stack.push(vBelow === vTop ? 1 : 0);
+      }
+      break;
+      case 'ISNIL':
+      {
+        vTop = this.stack.pop();
+        this.stack.push(vTop === 0 ? 1 : 0);
+      }
+      break;
+      case 'ISPOS':
+      {
+        vTop = this.stack.pop();
+        this.stack.push(vTop > 0 ? 1 : 0);
+      }
+      break;
+      case 'ISNEG':
+      {
+        vTop = this.stack.pop();
+        this.stack.push(vTop < 0 ? 1 : 0);
+      }
+      break;
+      case 'CMP':
+      {
+        vTop = this.stack.pop();
+        vBelow = this.stack.pop();
+        this.stack.push(vBelow < vTop ? -1 : vBelow > vTop ? 1 : 0);
+      }
+      break;
       case 'PRINT':
         console.log(this.stack[this.stack.length - 1]);
         break;

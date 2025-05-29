@@ -28,6 +28,7 @@ export class SaM {
         this.stack.pop();
         break;
       case 'ADD':
+      case 'ADDF':
         {
           vTop = this.stack.pop();
           vBelow = this.stack.pop();
@@ -35,6 +36,7 @@ export class SaM {
         }
         break;
       case 'SUB':
+      case 'SUBF':
         {
           vTop = this.stack.pop();
           vBelow = this.stack.pop();
@@ -42,6 +44,7 @@ export class SaM {
         }
         break;
       case 'TIMES':
+      case 'TIMESF':
         {
           b = this.stack.pop();
           vBelow = this.stack.pop();
@@ -49,6 +52,7 @@ export class SaM {
         }
         break;
       case 'DIV':
+      case 'DIVF':
         {
           vTop = this.stack.pop();
           vBelow = this.stack.pop();
@@ -182,6 +186,7 @@ export class SaM {
       }
       break;
       case 'CMP':
+      case 'CMPF':
       {
         vTop = this.stack.pop();
         vBelow = this.stack.pop();

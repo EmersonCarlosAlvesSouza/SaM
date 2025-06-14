@@ -365,6 +365,113 @@ export class SaM {
         }
         break;
 
+              case 'PUSHSP':
+        {
+          this.stack.push(this.stack.length);
+        }
+        break;
+
+      case 'POPSP':
+        {
+          const vTop = this.stack.pop();
+          const delta = vTop - this.stack.length;
+          if (delta > 0) {
+            for (let i = 0; i < delta; i++) {
+              this.stack.push(0);
+            }
+          } else {
+            for (let i = 0; i < -delta; i++) {
+              if (this.stack.length > 0) {
+                this.stack.pop();
+              }
+            }
+          }
+        }
+        break;
+
+      case 'PUSHFBR':
+        {
+          this.stack.push(this.fbr);
+        }
+        break;
+
+      case 'POPFBR':
+        {
+          const vTop = this.stack.pop();
+          this.fbr = vTop;
+        }
+        break;
+
+      case 'LINK':
+        {
+          this.stack.push(this.fbr);
+          this.fbr = this.stack.length - 1;
+        }
+        break;
+
+      case 'STOP':
+        {
+          this.running = false;
+        }
+        break;
+
+              case 'JUMP':
+        {
+          const target = isNaN(arg) ? this.labels[arg] : parseInt(arg);
+          if (target === undefined) {
+            throw new Error(`Endereço ou label inválido JUMP: ${arg}`);
+          }
+          this.pc = target - 1;  // -1 porque o loop incrementa depois
+        }
+        break;
+
+      case 'JUMPC':
+        {
+          const vTop = this.stack.pop();
+          if (vTop !== 0) {
+            const target = isNaN(arg) ? this.labels[arg] : parseInt(arg);
+            if (target === undefined) {
+              throw new Error(`Endereço ou label inválido JUMPC: ${arg}`);
+            }
+            this.pc = target - 1;
+          }
+        }
+        break;
+
+      case 'JUMPIND':
+        {
+          const vTop = this.stack.pop();
+          this.pc = vTop - 1;
+        }
+        break;
+
+      case 'JSR':
+        {
+          const target = isNaN(arg) ? this.labels[arg] : parseInt(arg);
+          if (target === undefined) {
+            throw new Error(`Endereço ou label inválido JSR: ${arg}`);
+          }
+          this.stack.push(this.pc + 1);  // empilha endereço de retorno
+          this.pc = target - 1;
+        }
+        break;
+
+      case 'JSRIND':
+        {
+          const vTop = this.stack.pop();
+          this.stack.push(this.pc + 1);
+          this.pc = vTop - 1;
+        }
+        break;
+
+      case 'SKIP':
+        {
+          const vTop = this.stack.pop();
+          this.pc = this.pc + vTop;
+        }
+        break;
+
+
 
 
       default:

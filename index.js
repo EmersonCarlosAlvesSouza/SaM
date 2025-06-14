@@ -1,14 +1,20 @@
 import { SaM } from './sam.js';
 
 const samcode = [
-  "PUSHIMM 10",
-  "ADDSP 2",       
-  "PUSHIMM 20",    
-  "STOREOFF 1",    
-  "PUSHOFF 1",     
+  "PUSHIMM 1",
   "PRINT",
-  "HALT"
+  "JUMP 4",
+  "PUSHIMM 999",  
+  "PUSHIMM 2",
+  "PRINT",
+  "PUSHIMM 0",
+  "JUMPC 9",      
+  "PUSHIMM 3",
+  "PRINT",
+  "STOP"
 ];
+
+
 
 const vm = new SaM(samcode);
 vm.fbr = 0;

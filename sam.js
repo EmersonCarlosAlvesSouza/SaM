@@ -1,3 +1,6 @@
+import readlineSync from 'readline-sync';
+
+
 export class SaM {
   constructor(program, labels = {}) {
     this.stack = [];
@@ -365,7 +368,7 @@ export class SaM {
         }
         break;
 
-              case 'PUSHSP':
+      case 'PUSHSP':
         {
           this.stack.push(this.stack.length);
         }
@@ -415,7 +418,7 @@ export class SaM {
         }
         break;
 
-              case 'JUMP':
+      case 'JUMP':
         {
           const target = isNaN(arg) ? this.labels[arg] : parseInt(arg);
           if (target === undefined) {
@@ -471,6 +474,72 @@ export class SaM {
         }
         break;
 
+      case 'READ':
+        {
+          const input = readlineSync.question("Digite um inteiro: ");
+          this.stack.push(parseInt(input));
+        }
+        break;
+
+      case 'READF':
+        {
+          const input = readlineSync.question("Digite um numero real: ");
+          this.stack.push(parseFloat(input));
+        }
+        break;
+
+      case 'READCH':
+        {
+          const input = readlineSync.question("Digite um caractere: ");
+          this.stack.push(input.charCodeAt(0));
+        }
+        break;
+
+      case 'READSTR':
+        {
+          if (!this.heap) {
+            this.heap = new Map();
+            this.heapPointer = 0x4000;
+          }
+          const input = readlineSync.question("Digite uma string: ");
+          const address = this.heapPointer;
+          this.heap.set(address, input);
+          this.stack.push(address);
+          this.heapPointer += input.length;
+        }
+        break;
+
+
+      case 'WRITE':
+        {
+          const value = this.stack.pop();
+          console.log(value);
+        }
+        break;
+
+      case 'WRITEF':
+        {
+          const value = this.stack.pop();
+          console.log(value);
+        }
+        break;
+
+      case 'WRITECH':
+        {
+          const value = this.stack.pop();
+          console.log(String.fromCharCode(value));
+        }
+        break;
+
+      case 'WRITESTR':
+        {
+          const address = this.stack.pop();
+          if (!this.heap || !this.heap.has(address)) {
+            throw new Error(`Endereço de string inválido: ${address}`);
+          }
+          console.log(this.heap.get(address));
+        }
+        break;
 
 
 

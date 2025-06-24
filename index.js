@@ -1,18 +1,17 @@
 import { SaM } from './sam.js';
 
 const samcode = [
-  "PUSHIMM 1",
-  "PRINT",
-  "JUMP 4",
-  "PUSHIMM 999",  
-  "PUSHIMM 2",
-  "PRINT",
-  "PUSHIMM 0",
-  "JUMPC 9",      
-  "PUSHIMM 3",
-  "PRINT",
+  "READSTR",
+  "WRITESTR",
+  "READ",
+  "WRITE",
+  "READCH",
+  "WRITECH",
+  "READF",
+  "WRITEF",
   "STOP"
 ];
+
 
 
 

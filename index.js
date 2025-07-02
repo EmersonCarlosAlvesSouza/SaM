@@ -1,21 +1,19 @@
-import { SaM } from './sam.js';
+import { tokenize } from './regex.js';
+import { parse } from './parse.js';
 
-const samcode = [
-  "READSTR",
-  "WRITESTR",
-  "READ",
-  "WRITE",
-  "READCH",
-  "WRITECH",
-  "READF",
-  "WRITEF",
-  "STOP"
-];
+const code = `
+function main() {
+  int x;
+  x = 2 + 3;
+  return x;
+}
+`;
 
+const tokens = tokenize(code);
+const ast = parse(tokens);
 
+console.log("\n\n Analisador lexico: \n\n");
+console.log(tokenize(code));
 
-
-const vm = new SaM(samcode);
-vm.fbr = 0;
-vm.run();
-
+console.log("\n\n Analisador sintatico: \n\n");
+console.log(JSON.stringify(ast, null, 2));

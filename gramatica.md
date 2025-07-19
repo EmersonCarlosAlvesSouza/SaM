@@ -107,5 +107,3 @@ function main() {
 - A implementação do parser e do analisador léxico em JavaScript está baseada nesta gramática.
 
 ---
-
-> Documento gerado com base no código do compilador em JavaScript para o projeto da disciplina de Compiladores.

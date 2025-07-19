@@ -2,15 +2,18 @@ import readlineSync from 'readline-sync';
 
 
 export class SaM {
-  constructor(program, labels = {}) {
+  constructor(program) {
     this.stack = [];
-    this.program = program;
-    this.labels = labels;
+    this.rawProgram = program;
+    this.program = [];
+    this.labels = {};
     this.pc = 0;
     this.running = true;
     this.fbr = 0;
 
+    this.preprocessLabels();
   }
+
 
 
   run() {
@@ -21,10 +24,24 @@ export class SaM {
       this.pc++;
     }
   }
+  preprocessLabels() {
+    let cleaned = [];
 
+    this.rawProgram.forEach((line, index) => {
+      if (line.endsWith(":")) {
+        const labelName = line.slice(0, -1);
+        this.labels[labelName] = cleaned.length;
+      } else {
+        cleaned.push(line);
+      }
+    });
+
+    this.program = cleaned;
+  }
   execute(instruction, arg) {
     var vTop;
     var vBelow;
+
 
 
     switch (instruction.toUpperCase()) {

@@ -122,4 +122,37 @@ function parseFator() {
   throw new Error(`Fator inesperado: ${tokens[current]?.type}`);
 }
 
+if (match('IF')) {
+  advance();
+  expect('LPAREN');
+  const cond = parseExpressao();
+  expect('RPAREN');
+  expect('LBRACE');
+  const thenBlock = parseComandos();
+  expect('RBRACE');
+
+  let elseBlock = null;
+  if (match('ELSE')) {
+    advance();
+    expect('LBRACE');
+    elseBlock = parseComandos();
+    expect('RBRACE');
+  }
+
+  return { type: 'If', cond, thenBlock, elseBlock };
+}
+
+if (match('WHILE')) {
+  advance();
+  expect('LPAREN');
+  const cond = parseExpressao();
+  expect('RPAREN');
+  expect('LBRACE');
+  const body = parseComandos();
+  expect('RBRACE');
+
+  return { type: 'While', cond, body };
+}
+
+
 export { parse };

@@ -71,9 +71,43 @@ function parseComando() {
     expect('SEMICOLON');
     return { type: 'Return', expr };
   }
+
+  if (match('IF')) {
+    advance();
+    expect('LPAREN');
+    const cond = parseExpressao();
+    expect('RPAREN');
+    expect('LBRACE');
+    const thenBlock = parseComandos();
+    expect('RBRACE');
+
+    let elseBlock = null;
+    if (match('ELSE')) {
+      advance();
+      expect('LBRACE');
+      elseBlock = parseComandos();
+      expect('RBRACE');
+    }
+
+    return { type: 'If', cond, thenBlock, elseBlock };
+  }
+
+  if (match('WHILE')) {
+    advance();
+    expect('LPAREN');
+    const cond = parseExpressao();
+    expect('RPAREN');
+    expect('LBRACE');
+    const body = parseComandos();
+    expect('RBRACE');
+
+    return { type: 'While', cond, body };
+  }
+
   if (match('TYPE_INT') || match('TYPE_DOUBLE') || match('TYPE_STRING')) {
     return parseDeclaracao();
   }
+
   const cmd = parseAtribuicao();
   expect('SEMICOLON');
   return cmd;
@@ -87,6 +121,21 @@ function parseAtribuicao() {
 }
 
 function parseExpressao() {
+  let left = parseRelacional();
+  return left;
+}
+
+function parseRelacional() {
+  let left = parseAditivo();
+  while (match('GREATER_THAN') || match('LESS_THAN') || match('EQUAL')) {
+    const op = advance().type;
+    const right = parseAditivo();
+    left = { type: 'BinOp', op, left, right };
+  }
+  return left;
+}
+
+function parseAditivo() {
   let left = parseTermo();
   while (match('PLUS') || match('MINUS')) {
     const op = advance().type;
@@ -121,38 +170,5 @@ function parseFator() {
   }
   throw new Error(`Fator inesperado: ${tokens[current]?.type}`);
 }
-
-if (match('IF')) {
-  advance();
-  expect('LPAREN');
-  const cond = parseExpressao();
-  expect('RPAREN');
-  expect('LBRACE');
-  const thenBlock = parseComandos();
-  expect('RBRACE');
-
-  let elseBlock = null;
-  if (match('ELSE')) {
-    advance();
-    expect('LBRACE');
-    elseBlock = parseComandos();
-    expect('RBRACE');
-  }
-
-  return { type: 'If', cond, thenBlock, elseBlock };
-}
-
-if (match('WHILE')) {
-  advance();
-  expect('LPAREN');
-  const cond = parseExpressao();
-  expect('RPAREN');
-  expect('LBRACE');
-  const body = parseComandos();
-  expect('RBRACE');
-
-  return { type: 'While', cond, body };
-}
-
 
 export { parse };

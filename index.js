@@ -1,6 +1,7 @@
 import { tokenize } from './regex.js';
 import { SaM } from './sam.js';
 
+
 import { parse } from './parser.js';
 
 const code = `
@@ -9,11 +10,16 @@ function main() {
   x = 2 + 3 * (4 + 1);
   return x;
 }
+
 `;
+
 
 const tokens = tokenize(code);
 const ast = parse(tokens);
 console.log(JSON.stringify(ast, null, 2));
+
+
+
 
 
 

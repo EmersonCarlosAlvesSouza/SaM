@@ -107,3 +107,12 @@ function main() {
 - A implementação do parser e do analisador léxico em JavaScript está baseada nesta gramática.
 
 ---
+
+(Verificando se esta ll1)
+
+O parse esta: 
+
+Analisa um token por vez (lookahead = 1)
+Decide o que fazer com base apenas nesse token
+Usa chamadas recursivas (por funções como parseExpressao, parseTermo, etc)
+Não precisa voltar (backtracking)

@@ -22,10 +22,11 @@ console.log(JSON.stringify(ast, null, 2));
 
 
 
-
 /*
+
 const programa = [
- // Função main
+
+// Função main
   "ADDSP 1",              // reserva espaço para variável local (offset 0)
   "PUSHIMM 2",            // valor a ser passado para a função
   "STOREOFF 0",           // salva na variável local (x = 2)

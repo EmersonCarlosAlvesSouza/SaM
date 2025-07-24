@@ -33,6 +33,60 @@ Termo'         → * Fator Termo' | / Fator Termo' | ε
 Fator          → ( Expressao ) | Numero | Identificador
 ```
 
+
+
+
+//fazer expressão lógica
+
+
+
+
+Expressões Lógicas e Relacionais
+
+Além das expressões aritméticas, a linguagem suporta expressões lógicas e relacionais, que podem ser usadas em estruturas como if e while. As precedências dos operadores são respeitadas da seguinte forma:
+Ordem de Precedência (da mais alta para a mais baixa):
+
+>, <, == (relacionais)
+
+! (negação)
+
+&& (E)
+
+|| (OU)
+
+
+
+Regra da Gramatica Expandida
+
+Expressao           → ExpressaoLogica
+ExpressaoLogica     → ExpressaoRelacional ExpressaoLogica'
+ExpressaoLogica'    → && ExpressaoRelacional ExpressaoLogica' | || ExpressaoRelacional ExpressaoLogica'| ε
+
+// Relacionais
+
+ExpressaoRelacional → ExpressaoAritmetica ExpressaoRelacional'
+ExpressaoRelacional'→ > ExpressaoAritmetica | < ExpressaoAritmetica  | == ExpressaoAritmetica | ε
+
+//Aritmetica
+
+ExpressaoAritmetica → Termo ExpressaoAritmetica'
+ExpressaoAritmetica'→ + Termo ExpressaoAritmetica'  | - Termo ExpressaoAritmetica'  | ε
+
+Termo               → Fator Termo'
+Termo'              → * Fator Termo'| / Fator Termo' | ε
+
+Fator               → ( Expressao )  | ! Fator  | Numero  | Identificador
+
+
+
+
+
+
+
+
+
+
+
 ---
 
 ## 📌 Elementos Léxicos

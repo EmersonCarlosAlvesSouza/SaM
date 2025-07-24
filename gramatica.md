@@ -62,12 +62,9 @@ Expressao           → ExpressaoLogica
 ExpressaoLogica     → ExpressaoRelacional ExpressaoLogica'
 ExpressaoLogica'    → && ExpressaoRelacional ExpressaoLogica' | || ExpressaoRelacional ExpressaoLogica'| ε
 
-// Relacionais
 
 ExpressaoRelacional → ExpressaoAritmetica ExpressaoRelacional'
 ExpressaoRelacional'→ > ExpressaoAritmetica | < ExpressaoAritmetica  | == ExpressaoAritmetica | ε
-
-//Aritmetica
 
 ExpressaoAritmetica → Termo ExpressaoAritmetica'
 ExpressaoAritmetica'→ + Termo ExpressaoAritmetica'  | - Termo ExpressaoAritmetica'  | ε
@@ -76,13 +73,6 @@ Termo               → Fator Termo'
 Termo'              → * Fator Termo'| / Fator Termo' | ε
 
 Fator               → ( Expressao )  | ! Fator  | Numero  | Identificador
-
-
-
-
-
-
-
 
 
 

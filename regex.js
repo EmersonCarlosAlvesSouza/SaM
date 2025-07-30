@@ -4,12 +4,15 @@ export const regex_table = {
   // Palavras-chave de controle
   "^if$": "IF",
   "^else$": "ELSE",
+  "^end-if$": "END_IF",
   "^while$": "WHILE",
+  "^end-while$": "END_WHILE",
   "^for$": "FOR",
   "^function$": "FUNCTION",
   "^return$": "RETURN",
   "^break$": "BREAK",
   "^continue$": "CONTINUE",
+
 
   // Constantes e tipos
   "^const$": "CONST",
@@ -69,19 +72,28 @@ export const regex_table = {
 export function tokenize(inputCode) {
   const tokens = [];
 
-  const words = inputCode
-    .replace(/([(){}\[\];:,=+\-*/%!<>])/g, ' $1 ')         // separa pontuação simples
-    .replace(/==+|!=+|>=|<=|&&|\|\|/g, match => ` ${match} `) // separa operadores compostos
-    .split(/\s+/)                                           // divide por espaço
-    .filter(word => word.length > 0);                       // remove vazios
+  // Protege palavras compostas (end-if, end-while)
+  const protectedCode = inputCode
+    .replace(/\bend-if\b/g, ' end_if ')
+    .replace(/\bend-while\b/g, ' end_while ');
+
+  const words = protectedCode
+    .replace(/([(){}\[\];:,=+\-*/%!<>])/g, ' $1 ')
+    .replace(/==+|!=+|>=|<=|&&|\|\|/g, match => ` ${match} `)
+    .split(/\s+/)
+    .filter(word => word.length > 0);
 
   for (const word of words) {
     let matched = false;
 
+    const normalizedWord = word
+      .replace(/^end_if$/, 'end-if')
+      .replace(/^end_while$/, 'end-while');
+
     for (const [regex, type] of Object.entries(regex_table)) {
       const re = new RegExp(regex);
-      if (re.test(word)) {
-        tokens.push({ type, value: word });
+      if (re.test(normalizedWord)) {
+        tokens.push({ type, value: normalizedWord });
         matched = true;
         break;
       }
@@ -94,3 +106,4 @@ export function tokenize(inputCode) {
 
   return tokens;
 }
+

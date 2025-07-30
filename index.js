@@ -4,14 +4,29 @@ import { SaM } from './sam.js';
 
 import { parse } from './parser.js';
 
+// const code = `
+// int x;
+// function main() {
+//   x = 2 + 3 * (4 + 1);
+//   return x;
+// }
+
+// `;
 const code = `
-int x;
 function main() {
-  x = 2 + 3 * (4 + 1);
+  int x;
+  x = 5;
+  if (x > 0) {
+    x = x - 1;
+  } else {
+    x = 0;
+  }
+  end-if
   return x;
 }
-
 `;
+
+
 
 
 const tokens = tokenize(code);

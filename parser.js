@@ -89,6 +89,8 @@ function parseComando() {
       expect('RBRACE');
     }
 
+    expect('END_IF');
+
     return { type: 'If', cond, thenBlock, elseBlock };
   }
 
@@ -100,6 +102,7 @@ function parseComando() {
     expect('LBRACE');
     const body = parseComandos();
     expect('RBRACE');
+    expect('END_WHILE');
 
     return { type: 'While', cond, body };
   }

@@ -13,7 +13,7 @@ Declaracao     → Tipo Identificador ;
 Tipo           → int | double | string
 FuncaoPrincipal→ function main ( ) { Comandos }
 Comandos       → (Comando)*
-Comando → Atribuicao ; | return Expressao ; | if ( Expressao ) { Comandos } (else { Comandos })? | while ( Expressao ) { Comandos }
+Comando → if ( Expressao ) { Comandos } (else { Comandos })? end-if | while ( Expressao ) { Comandos } end-while
 Atribuicao     → Identificador = Expressao
 ```
 

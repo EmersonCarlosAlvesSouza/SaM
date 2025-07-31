@@ -20,7 +20,7 @@ function advance() {
 }
 
 function expect(type) {
-  if (!match(type)) throw new Error(`Esperado token ${type}, encontrado ${tokens[current]?.type}`);
+  if (!match(type) && tokens[current]) throw new Error(`Esperado token ${type}, encontrado ${tokens[current].type}`);
   return advance();
 }
 
@@ -171,7 +171,9 @@ function parseFator() {
   if (match('IDENTIFIER')) {
     return { type: 'Var', name: advance().value };
   }
-  throw new Error(`Fator inesperado: ${tokens[current]?.type}`);
+  if (tokens[current]){
+    throw new Error(`Fator inesperado: ${tokens[current].type}`);
+  }
 }
 
 export { parse };

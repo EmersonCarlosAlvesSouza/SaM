@@ -77,15 +77,10 @@ export function tokenize(inputCode) {
     .replace(/\bend-if\b/g, ' end_if ')
     .replace(/\bend-while\b/g, ' end_while ');
 
-  // const words = protectedCode
-  //   .replace(/([(){}\[\];:,=+\-*/%!<>])/g, ' $1 ')
-  //   .replace(/==+|!=+|>=|<=|&&|\|\|/g, match => ` ${match} `)
-  //   .split(/\s+/)
-  //   .filter(word => word.length > 0);
+  const operatorsAndPunctuators = /(\+\+|--|===|!==|==|!=|>=|<=|&&|\|\||[(){}\[\];:,=+\-*/%!<>])/g;
 
   const words = protectedCode
-    .replace(/==+|!=+|>=|<=|&&|\|\|/g, match => ` ${match} `)
-    .replace(/([(){}\[\];:,=+\-*/%!<>])/g, ' $1 ')           
+    .replace(operatorsAndPunctuators, ' $1 ')
     .split(/\s+/)
     .filter(word => word.length > 0);
 
@@ -112,4 +107,5 @@ export function tokenize(inputCode) {
 
   return tokens;
 }
+
 

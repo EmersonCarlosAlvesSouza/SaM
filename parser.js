@@ -20,7 +20,9 @@ function advance() {
 }
 
 function expect(type) {
-  if (!match(type) && tokens[current]) throw new Error(`Esperado token ${type}, encontrado ${tokens[current].type}`);
+  if (!match(type) && tokens[current]) {
+    throw new Error(`Esperado token ${type}, encontrado ${tokens[current].type}`);
+  }
   return advance();
 }
 
@@ -123,14 +125,48 @@ function parseAtribuicao() {
   return { type: 'Atribuicao', id, expr };
 }
 
+// EXPRESSÕES
+
 function parseExpressao() {
+  return parseOr();
+}
+
+function parseOr() {
+  let left = parseAnd();
+  while (match('OR')) {
+    const op = advance().type;
+    const right = parseAnd();
+    left = { type: 'BinOp', op, left, right };
+  }
+  return left;
+}
+
+function parseAnd() {
+  let left = parseIgualdade();
+  while (match('AND')) {
+    const op = advance().type;
+    const right = parseIgualdade();
+    left = { type: 'BinOp', op, left, right };
+  }
+  return left;
+}
+
+function parseIgualdade() {
   let left = parseRelacional();
+  while (match('EQUAL') || match('NOT_EQUAL')) {
+    const op = advance().type;
+    const right = parseRelacional();
+    left = { type: 'BinOp', op, left, right };
+  }
   return left;
 }
 
 function parseRelacional() {
   let left = parseAditivo();
-  while (match('GREATER_THAN') || match('LESS_THAN') || match('EQUAL')) {
+  while (
+    match('GREATER_THAN') || match('LESS_THAN') ||
+    match('GREATER_EQUAL') || match('LESS_EQUAL')
+  ) {
     const op = advance().type;
     const right = parseAditivo();
     left = { type: 'BinOp', op, left, right };
@@ -149,13 +185,22 @@ function parseAditivo() {
 }
 
 function parseTermo() {
-  let left = parseFator();
-  while (match('MULTIPLY') || match('DIVIDE')) {
+  let left = parseUnario();
+  while (match('MULTIPLY') || match('DIVIDE') || match('MOD')) {
     const op = advance().type;
-    const right = parseFator();
+    const right = parseUnario();
     left = { type: 'BinOp', op, left, right };
   }
   return left;
+}
+
+function parseUnario() {
+  if (match('NOT')) {
+    const op = advance().type;
+    const expr = parseUnario();
+    return { type: 'UnOp', op, expr };
+  }
+  return parseFator();
 }
 
 function parseFator() {
@@ -171,7 +216,7 @@ function parseFator() {
   if (match('IDENTIFIER')) {
     return { type: 'Var', name: advance().value };
   }
-  if (tokens[current]){
+  if (tokens[current]) {
     throw new Error(`Fator inesperado: ${tokens[current].type}`);
   }
 }

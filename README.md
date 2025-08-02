@@ -110,3 +110,188 @@ vm.run();
   "ADD",
   "STOREOFF -2",          // salva valor de retorno no offset -2
   "JUMPIND"               // retorna para endereço de retorno empilhado por JSR
+
+
+
+
+Exemplos para testar o programa:
+
+Exemplo 1: Aritmética com precedência
+
+int resultado;
+function main() {
+  resultado = 2 + 3 * 4;
+  return resultado;
+}
+
+Exemplo 2: Lógica com && e ||
+
+int a;
+int b;
+int resultado;
+function main() {
+  a = 4;
+  b = 6;
+  if (a > 2 && b < 10 || a == 0) {
+    resultado = 1;
+  }
+  end-if
+  return resultado;
+}
+
+Exemplo 3: Uso de ! (NOT)
+
+int x;
+int resultado;
+function main() {
+  x = 0;
+  if (!x) {
+    resultado = 10;
+  }
+  end-if
+  return resultado;
+}
+
+Exemplo 4: Agrupamento com parênteses para mudar precedência
+
+int a;
+int b;
+int resultado;
+function main() {
+  a = 1;
+  b = 2;
+  if (a == 0 || (b > 1 && a < 2)) {
+    resultado = 123;
+  }
+  end-if
+  return resultado;
+}
+
+Exemplo 5: Combinação de tudo + operação aritmética no if
+
+int a;
+int b;
+int resultado;
+function main() {
+  a = 3;
+  b = 5;
+  if ((a + b) > 7 && !(a == 0)) {
+    resultado = 999;
+  }
+  end-if
+  return resultado;
+}
+
+Exemplo 6 — while simples com if
+
+int i;
+int total;
+
+function main() {
+  i = 0;
+  total = 0;
+
+  while (i < 5) {
+    if (i % 2 == 0) {
+      total = total + i;
+    }
+    end-if
+    i = i + 1;
+  }
+  end-while
+
+  return total;
+}
+
+Exemplo 7 — while com if-else e AND
+
+int i;
+int acumulador;
+
+function main() {
+  i = 1;
+  acumulador = 0;
+
+  while (i <= 5) {
+    if (i > 2 && i < 5) {
+      acumulador = acumulador + i;
+    } else {
+      acumulador = acumulador - 1;
+    }
+    end-if
+    i = i + 1;
+  }
+  end-while
+
+  return acumulador;
+}
+
+Exemplo 8 — while com NOT
+
+int ligado;
+int tentativas;
+
+function main() {
+  ligado = 0;
+  tentativas = 0;
+
+  while (!ligado) {
+    tentativas = tentativas + 1;
+    if (tentativas > 3) {
+      ligado = 1;
+    }
+    end-if
+  }
+  end-while
+
+  return tentativas;
+}
+
+Exemplo 9 — while com OR e controle de loop
+
+int a;
+int b;
+int resultado;
+
+function main() {
+  a = 0;
+  b = 5;
+  resultado = 0;
+
+  while (a < 5 || b > 0) {
+    resultado = resultado + 1;
+    a = a + 1;
+    b = b - 1;
+  }
+  end-while
+
+  return resultado;
+}
+
+Exemplo 10 — while com if aninhado
+
+int i;
+int pares;
+int impares;
+
+function main() {
+  i = 1;
+  pares = 0;
+  impares = 0;
+
+  while (i <= 6) {
+    if (i % 2 == 0) {
+      pares = pares + 1;
+    } else {
+      if (i > 3) {
+        impares = impares + 2;
+      }
+      end-if
+    }
+    end-if
+    i = i + 1;
+  }
+  end-while
+
+  return pares + impares;
+}

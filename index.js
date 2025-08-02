@@ -3,23 +3,35 @@ import { SaM } from './sam.js';
 import { parse } from './parser.js';
 
 const code = `
-int a;
-int b;
-int c;
-int resultado;
+int i;
+int pares;
+int impares;
 
 function main() {
-  a = 5;
-  b = 3;
-  c = 1;
+  i = 1;
+  pares = 0;
+  impares = 0;
 
-  if (a > 2 && b < 5 || !c) {
-    resultado = 100;
+  while (i <= 6) {
+    if (i % 2 == 0) {
+      pares = pares + 1;
+    } else {
+      if (i > 3) {
+        impares = impares + 2;
+      }
+      end-if
+    }
+    end-if
+    i = i + 1;
   }
-  end-if
+  end-while
 
-  return resultado;
+  return pares + impares;
 }
+
+
+
+
 `;
 
 const tokens = tokenize(code);

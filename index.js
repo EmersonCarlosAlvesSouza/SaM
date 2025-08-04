@@ -1,39 +1,27 @@
 import { tokenize } from './regex.js';
-import { SaM } from './sam.js';
 import { parse } from './parser.js';
+import { buildSymbolTable } from './symbolTable.js';
 
 const code = `
-int i;
-int pares;
-int impares;
-
+int x;
+int y;
+double teste;
 function main() {
-  i = 1;
-  pares = 0;
-  impares = 0;
+  int z;
+  x = 5;
+  y = x + 1;
 
-  while (i <= 6) {
-    if (i % 2 == 0) {
-      pares = pares + 1;
-    } else {
-      if (i > 3) {
-        impares = impares + 2;
-      }
-      end-if
-    }
-    end-if
-    i = i + 1;
-  }
-  end-while
 
-  return pares + impares;
+  return y;
 }
-
-
-
-
 `;
 
 const tokens = tokenize(code);
 const ast = parse(tokens);
+const symbolTable = buildSymbolTable(ast);
+
+console.log("AST:");
 console.log(JSON.stringify(ast, null, 2));
+
+console.log("\nTabela de Símbolos:");
+console.table(symbolTable);

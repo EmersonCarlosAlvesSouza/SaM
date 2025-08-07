@@ -1,27 +1,53 @@
 import { tokenize } from './regex.js';
 import { parse } from './parser.js';
+import { generateCode } from './codegen.js';
+import { SaM } from './sam.js';
 import { buildSymbolTable } from './symbolTable.js';
 
-const code = `
-int x;
-int y;
-double teste;
+const codeFonte = `
 function main() {
-  int z;
+  int x;
   x = 5;
-  y = x + 1;
-
-
-  return y;
+  while (x > 0) {
+    x = x - 10;
+  }
+  return x;
 }
 `;
 
-const tokens = tokenize(code);
+// const codeFonte = `
+// function main() {
+//   int ligado;
+//   int tentativas;
+//   ligado = 0;
+//   tentativas = 0;
+
+//   while (!ligado) {
+//     tentativas = tentativas + 1;
+//     if (tentativas > 3) {
+//       ligado = 1;
+//     }
+//     end-if
+//   }
+
+//   return tentativas;
+// }
+// `;
+
+const tokens = tokenize(codeFonte);
 const ast = parse(tokens);
-const symbolTable = buildSymbolTable(ast);
-
-console.log("AST:");
+console.log("--- ARVORE SINTATICA ---");
 console.log(JSON.stringify(ast, null, 2));
+const instructions = generateCode(ast);
 
-console.log("\nTabela de Símbolos:");
+console.log("\n--- TABELA DE SÍMBOLOS ---");
+const symbolTable = buildSymbolTable(ast);
 console.table(symbolTable);
+
+console.log('\n\n--- INSTRUÇÕES SAM ---');
+console.log(instructions.join('\n'));
+
+console.log("\n\n--- EXECUÇÃO DA VM ---");
+const vm = new SaM(instructions);
+vm.run();
+

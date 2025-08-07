@@ -6,7 +6,7 @@ export const regex_table = {
   "^else$": "ELSE",
   "^end-if$": "END_IF",
   "^while$": "WHILE",
-  "^end-while$": "END_WHILE",
+  // "^end-while$": "END_WHILE",
   "^for$": "FOR",
   "^function$": "FUNCTION",
   "^return$": "RETURN",
@@ -74,8 +74,8 @@ export function tokenize(inputCode) {
 
   // Protege palavras compostas (end-if, end-while)
   const protectedCode = inputCode
-    .replace(/\bend-if\b/g, ' end_if ')
-    .replace(/\bend-while\b/g, ' end_while ');
+    .replace(/\bend-if\b/g, ' end_if ');
+    // .replace(/\bend-while\b/g, ' end_while ');
 
   const operatorsAndPunctuators = /(\+\+|--|===|!==|==|!=|>=|<=|&&|\|\||[(){}\[\];:,=+\-*/%!<>])/g;
 
@@ -88,8 +88,8 @@ export function tokenize(inputCode) {
     let matched = false;
 
     const normalizedWord = word
-      .replace(/^end_if$/, 'end-if')
-      .replace(/^end_while$/, 'end-while');
+      .replace(/^end_if$/, 'end-if');
+      // .replace(/^end_while$/, 'end-while');
 
     for (const [regex, type] of Object.entries(regex_table)) {
       const re = new RegExp(regex);

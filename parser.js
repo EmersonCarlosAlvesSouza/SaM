@@ -104,7 +104,7 @@ function parseComando() {
     expect('LBRACE');
     const body = parseComandos();
     expect('RBRACE');
-    expect('END_WHILE');
+    // expect('END_WHILE');
 
     return { type: 'While', cond, body };
   }
